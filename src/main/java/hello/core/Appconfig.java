@@ -9,21 +9,31 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Configurable
+@Configuration
 public class Appconfig {
+
+    /*
+    @Configuration에 의한 싱글톤 유지
+    call Appconfig.memberService
+    call Appconfig.memberRepository
+    call Appconfig.orderService
+     */
     @Bean
     public MemberService memberService() {
+        System.out.println("call Appconfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call Appconfig.memberRepository");
         return new MemoryMemberRepository();
     }
     @Bean
     public OrderService orderService() {
+        System.out.println("call Appconfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
     @Bean
