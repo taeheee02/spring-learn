@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor // private final로 설정된 필드에 대한 생성자 자동 생성
+//@RequiredArgsConstructor // private final로 설정된 필드에 대한 생성자 자동 생성
 public class OrderServiceImpl implements OrderService {
 
     //생성자를 주입을 쓰면 private final을 사용할 수 있음 -> 생성자 코드를 잊었을 경우 컴파일 오류로 원인을 쉽게 찾을 수 있다.
@@ -30,12 +31,12 @@ public class OrderServiceImpl implements OrderService {
 //        this.discountPolicy = discountPolicy;
 //    }
 
-//    @Autowired
-//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-//        // 생성자 주입은 의존관계 불변을 보장
-//        this.memberRepository = memberRepository;
-//        this.discountPolicy = discountPolicy;
-//    }
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
+        // 생성자 주입은 의존관계 불변을 보장
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
